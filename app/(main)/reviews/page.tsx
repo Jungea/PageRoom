@@ -13,7 +13,12 @@ export default async function ReviewsPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-bold">독후감</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-bold">독후감</h1>
+        <Link href="/reviews/new" className="text-sm px-3 py-1.5 rounded-lg" style={{ backgroundColor: 'rgb(var(--color-primary))', color: 'rgb(var(--color-primary-foreground))' }}>
+          + 새 독후감
+        </Link>
+      </div>
 
       {(!reviews || reviews.length === 0) ? (
         <p className="text-center py-12 text-sm" style={{ color: 'rgb(var(--color-text-muted))' }}>
