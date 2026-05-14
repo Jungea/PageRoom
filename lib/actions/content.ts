@@ -75,3 +75,18 @@ export async function createContent(formData: FormData) {
   revalidatePath('/library')
   redirect(`/library/${content.id}`)
 }
+
+export async function deleteContent(contentId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Unauthorized')
+
+  await supabase
+    .from('contents')
+    .delete()
+    .eq('id', contentId)
+    .eq('user_id', user.id)
+
+  revalidatePath('/library')
+  redirect('/library')
+}

@@ -54,3 +54,19 @@ export async function upsertReview(formData: FormData) {
   revalidatePath(`/library/${contentId}`)
   redirect(`/reviews/${resultId}`)
 }
+
+export async function deleteReview(reviewId: string, contentId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Unauthorized')
+
+  await supabase
+    .from('reviews')
+    .delete()
+    .eq('id', reviewId)
+    .eq('user_id', user.id)
+
+  revalidatePath('/reviews')
+  revalidatePath(`/library/${contentId}`)
+  redirect('/reviews')
+}

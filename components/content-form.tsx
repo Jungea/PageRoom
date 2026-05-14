@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { createContent } from '@/lib/actions/content'
-import { Button } from '@/components/ui/button'
+import { SubmitButton } from '@/components/submit-button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { getContentTypeLabel, getStatusLabel } from '@/lib/utils'
@@ -17,20 +17,16 @@ interface ContentFormProps {
 
 export function ContentForm({ defaultType = 'book' }: ContentFormProps) {
   const [type, setType] = useState<ContentType>(defaultType)
-  const [loading, setLoading] = useState(false)
-
   const isBook = type === 'book'
   const isEpisodic = type === 'webnovel' || type === 'indie'
 
   async function handleSubmit(formData: FormData) {
-    setLoading(true)
     formData.set('type', type)
     await createContent(formData)
   }
 
   return (
     <form action={handleSubmit} className="space-y-5">
-      {/* 타입 선택 */}
       <div className="space-y-1">
         <Label>콘텐츠 타입</Label>
         <div className="flex gap-2 flex-wrap">
@@ -106,9 +102,7 @@ export function ContentForm({ defaultType = 'book' }: ContentFormProps) {
         </select>
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? '저장 중...' : '등록하기'}
-      </Button>
+      <SubmitButton className="w-full">등록하기</SubmitButton>
     </form>
   )
 }

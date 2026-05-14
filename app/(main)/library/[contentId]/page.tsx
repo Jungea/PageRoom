@@ -7,6 +7,8 @@ import { getContentTypeLabel, formatProgress } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
+import { DeleteButton } from '@/components/delete-button'
+import { deleteContent } from '@/lib/actions/content'
 
 interface Props {
   params: Promise<{ contentId: string }>
@@ -53,6 +55,14 @@ export default async function ContentDetailPage({ params }: Props) {
 
   return (
     <div className="space-y-6">
+      <div className="flex items-center justify-between mb-2">
+        <span />
+        <DeleteButton
+          action={deleteContent.bind(null, contentId)}
+          confirmMessage={`"${content.title}"을(를) 삭제할까요? 활동 로그와 독후감도 함께 삭제됩니다.`}
+        />
+      </div>
+
       <div className="flex gap-4">
         <div className="w-16 h-22 flex-shrink-0 rounded-lg overflow-hidden"
           style={{ backgroundColor: 'rgb(var(--color-accent))' }}>

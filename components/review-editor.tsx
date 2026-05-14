@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { upsertReview } from '@/lib/actions/review'
-import { Button } from '@/components/ui/button'
+import { SubmitButton } from '@/components/submit-button'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 
@@ -24,18 +24,11 @@ export function ReviewEditor({
   contentTitle,
 }: ReviewEditorProps) {
   const [rating, setRating] = useState(initialRating)
-  const [loading, setLoading] = useState(false)
-
-  async function handleSubmit(formData: FormData) {
-    setLoading(true)
-    formData.set('rating', String(rating))
-    await upsertReview(formData)
-  }
-
   return (
-    <form action={handleSubmit} className="space-y-5">
+    <form action={upsertReview} className="space-y-5">
       <input type="hidden" name="content_id" value={contentId} />
       {reviewId && <input type="hidden" name="review_id" value={reviewId} />}
+      <input type="hidden" name="rating" value={String(rating)} />
 
       <div>
         <h1 className="text-xl font-bold">{contentTitle}</h1>
@@ -80,9 +73,7 @@ export function ReviewEditor({
         <Label htmlFor="is_public">공개</Label>
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? '저장 중...' : '저장하기'}
-      </Button>
+      <SubmitButton className="w-full">저장하기</SubmitButton>
     </form>
   )
 }
