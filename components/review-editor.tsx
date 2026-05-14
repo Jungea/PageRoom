@@ -62,16 +62,7 @@ export function ReviewEditor({
         />
       </div>
 
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          id="is_public"
-          name="is_public"
-          value="true"
-          defaultChecked={initialIsPublic}
-        />
-        <Label htmlFor="is_public">공개</Label>
-      </div>
+      <input type="hidden" name="is_public" value="false" />
 
       <SubmitButton className="w-full">저장하기</SubmitButton>
     </form>

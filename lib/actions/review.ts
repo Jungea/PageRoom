@@ -52,7 +52,7 @@ export async function upsertReview(formData: FormData) {
 
   revalidatePath('/reviews')
   revalidatePath(`/library/${contentId}`)
-  redirect(`/reviews/${resultId}`)
+  redirect('/reviews')
 }
 
 export async function deleteReview(reviewId: string, contentId: string) {
