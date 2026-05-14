@@ -33,7 +33,7 @@ export function ProgressForm({ record, contentId, contentType }: ProgressFormPro
           id="status"
           name="status"
           defaultValue={record.status}
-          className="w-full rounded-md border px-3 py-2 text-sm"
+          className="h-9 w-full rounded-md border px-3 text-sm"
           style={{ borderColor: 'rgb(var(--color-border))' }}
         >
           {STATUS_OPTIONS.map((s) => (
