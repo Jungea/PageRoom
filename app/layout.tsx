@@ -38,7 +38,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="ko" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="ko" data-theme={themeId} className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="min-h-screen antialiased">
         <ThemeProvider themeId={themeId}>
           {children}
