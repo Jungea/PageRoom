@@ -4,3 +4,62 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+import type { ContentType, ReadingStatus } from './types'
+
+const STATUS_LABELS: Record<ReadingStatus, string> = {
+  to_read: '읽기 전',
+  reading: '읽는 중',
+  completed: '완독',
+  dropped: '중단',
+  rereading: '재독 중',
+  waiting: '휴재 대기',
+  up_to_date: '최신화 도달',
+}
+
+const STATUS_COLORS: Record<ReadingStatus, string> = {
+  to_read: 'bg-slate-100 text-slate-600',
+  reading: 'bg-indigo-100 text-indigo-700',
+  completed: 'bg-green-100 text-green-700',
+  dropped: 'bg-red-100 text-red-600',
+  rereading: 'bg-purple-100 text-purple-700',
+  waiting: 'bg-yellow-100 text-yellow-700',
+  up_to_date: 'bg-green-100 text-green-700',
+}
+
+const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
+  book: '책',
+  webnovel: '웹소설',
+  indie: '비출간',
+  original: '창작',
+}
+
+export function getStatusLabel(status: ReadingStatus): string {
+  return STATUS_LABELS[status]
+}
+
+export function getStatusColor(status: ReadingStatus): string {
+  return STATUS_COLORS[status]
+}
+
+export function getContentTypeLabel(type: ContentType): string {
+  return CONTENT_TYPE_LABELS[type]
+}
+
+export function formatProgress(
+  type: ContentType,
+  progressPage: number | null,
+  progressEpisode: number | null,
+  totalPages: number | null,
+  totalEpisodes: number | null,
+): string {
+  if (type === 'book' && progressPage !== null) {
+    return totalPages ? `${progressPage} / ${totalPages}p` : `${progressPage}p`
+  }
+  if ((type === 'webnovel' || type === 'indie') && progressEpisode !== null) {
+    return totalEpisodes
+      ? `${progressEpisode} / ${totalEpisodes}화`
+      : `${progressEpisode}화`
+  }
+  return ''
+}
