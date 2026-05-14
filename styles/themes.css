@@ -1,0 +1,23 @@
+/* 기본 테마 */
+[data-theme="default"] {
+  --color-primary: 99 102 241;
+  --color-primary-foreground: 255 255 255;
+  --color-surface: 248 250 252;
+  --color-surface-card: 255 255 255;
+  --color-border: 226 232 240;
+  --color-text: 15 23 42;
+  --color-text-muted: 100 116 139;
+  --color-accent: 238 242 255;
+}
+
+/* 크림 테마 */
+[data-theme="cream"] {
+  --color-primary: 161 130 98;
+  --color-primary-foreground: 255 255 255;
+  --color-surface: 250 247 242;
+  --color-surface-card: 255 252 248;
+  --color-border: 232 220 204;
+  --color-text: 44 33 22;
+  --color-text-muted: 139 117 95;
+  --color-accent: 245 237 224;
+}
