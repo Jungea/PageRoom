@@ -1,0 +1,88 @@
+'use client'
+
+import { useState } from 'react'
+import { upsertReview } from '@/lib/actions/review'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { Label } from '@/components/ui/label'
+
+interface ReviewEditorProps {
+  contentId: string
+  reviewId?: string
+  initialBody?: string
+  initialRating?: number
+  initialIsPublic?: boolean
+  contentTitle: string
+}
+
+export function ReviewEditor({
+  contentId,
+  reviewId,
+  initialBody = '',
+  initialRating = 0,
+  initialIsPublic = false,
+  contentTitle,
+}: ReviewEditorProps) {
+  const [rating, setRating] = useState(initialRating)
+  const [loading, setLoading] = useState(false)
+
+  async function handleSubmit(formData: FormData) {
+    setLoading(true)
+    formData.set('rating', String(rating))
+    await upsertReview(formData)
+  }
+
+  return (
+    <form action={handleSubmit} className="space-y-5">
+      <input type="hidden" name="content_id" value={contentId} />
+      {reviewId && <input type="hidden" name="review_id" value={reviewId} />}
+
+      <div>
+        <h1 className="text-xl font-bold">{contentTitle}</h1>
+        <p className="text-sm" style={{ color: 'rgb(var(--color-text-muted))' }}>독후감</p>
+      </div>
+
+      <div className="space-y-1">
+        <Label>별점</Label>
+        <div className="flex gap-1">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button
+              key={star}
+              type="button"
+              onClick={() => setRating(rating === star ? 0 : star)}
+              className="text-2xl transition-transform hover:scale-110"
+            >
+              {star <= rating ? '★' : '☆'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-1">
+        <Label htmlFor="body">내용 (마크다운 지원)</Label>
+        <Textarea
+          id="body"
+          name="body"
+          defaultValue={initialBody}
+          rows={10}
+          placeholder="이 책에 대한 생각을 자유롭게 기록해보세요..."
+        />
+      </div>
+
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="is_public"
+          name="is_public"
+          value="true"
+          defaultChecked={initialIsPublic}
+        />
+        <Label htmlFor="is_public">공개</Label>
+      </div>
+
+      <Button type="submit" className="w-full" disabled={loading}>
+        {loading ? '저장 중...' : '저장하기'}
+      </Button>
+    </form>
+  )
+}
