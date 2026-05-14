@@ -29,9 +29,18 @@ export default function LoginPage() {
       if (error) setMessage(error.message)
       else setMessage('이메일을 확인해주세요.')
     } else {
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) setMessage(error.message)
-      else window.location.href = '/library'
+      else {
+        if (data.user) {
+          await supabase.from('user_profiles').upsert({
+            user_id: data.user.id,
+            store_name: '나의 서점',
+            theme_id: 'default',
+          }, { onConflict: 'user_id', ignoreDuplicates: true })
+        }
+        window.location.href = '/library'
+      }
     }
 
     setLoading(false)

@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 
 export async function updateProfile(formData: FormData) {
   const supabase = await createClient()
@@ -13,9 +14,9 @@ export async function updateProfile(formData: FormData) {
 
   await supabase
     .from('user_profiles')
-    .update({ store_name: storeName, theme_id: themeId })
-    .eq('user_id', user.id)
+    .upsert({ user_id: user.id, store_name: storeName, theme_id: themeId })
 
   revalidatePath('/settings')
   revalidatePath('/', 'layout')
+  redirect('/settings')
 }

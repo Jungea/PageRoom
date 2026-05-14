@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { updateProfile } from '@/lib/actions/profile'
-import { Button } from '@/components/ui/button'
+import { SubmitButton } from '@/components/submit-button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
@@ -46,7 +46,7 @@ export default async function SettingsPage() {
                   type="radio"
                   name="theme_id"
                   value={theme.id}
-                  defaultChecked={profile?.theme_id === theme.id}
+                  defaultChecked={(profile?.theme_id ?? 'default') === theme.id}
                 />
                 <span className="text-sm">{theme.label}</span>
               </label>
@@ -54,7 +54,7 @@ export default async function SettingsPage() {
           </div>
         </div>
 
-        <Button type="submit">저장하기</Button>
+        <SubmitButton>저장하기</SubmitButton>
       </form>
     </div>
   )
