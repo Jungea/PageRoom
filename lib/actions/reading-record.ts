@@ -34,6 +34,7 @@ export async function updateProgress(formData: FormData) {
     action: status === 'completed' ? 'completed' : 'progress',
     note: note || null,
     progress_snapshot: progressPage ?? progressEpisode,
+    status_snapshot: status,
   })
 
   revalidatePath(`/library/${contentId}`)

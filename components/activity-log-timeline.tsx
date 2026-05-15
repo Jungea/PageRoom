@@ -1,18 +1,24 @@
-import type { ActivityLog } from '@/lib/types'
+import type { ActivityLog, ProgressType, ReadingStatus } from '@/lib/types'
+import { getStatusLabel } from '@/lib/utils'
 
 interface ActivityLogTimelineProps {
   logs: ActivityLog[]
+  progressType?: ProgressType
 }
 
 const ACTION_LABELS: Record<string, string> = {
-  progress: '진행도 업데이트',
-  status_change: '상태 변경',
   review_written: '독후감 작성',
   started: '등록',
-  completed: '완독',
 }
 
-export function ActivityLogTimeline({ logs }: ActivityLogTimelineProps) {
+function getLogLabel(log: ActivityLog): string {
+  if (log.action === 'progress' || log.action === 'completed') {
+    return log.status_snapshot ? getStatusLabel(log.status_snapshot as ReadingStatus) : ACTION_LABELS[log.action] ?? log.action
+  }
+  return ACTION_LABELS[log.action] ?? log.action
+}
+
+export function ActivityLogTimeline({ logs, progressType }: ActivityLogTimelineProps) {
   if (logs.length === 0) {
     return (
       <p className="text-sm text-center py-4" style={{ color: 'rgb(var(--color-text-muted))' }}>
@@ -29,12 +35,14 @@ export function ActivityLogTimeline({ logs }: ActivityLogTimelineProps) {
             {new Date(log.logged_at).toLocaleDateString('ko-KR', { month: 'numeric', day: 'numeric' })}
           </span>
           <div>
-            <span className="font-medium">{ACTION_LABELS[log.action] ?? log.action}</span>
-            {log.note && (
-              <span style={{ color: 'rgb(var(--color-text-muted))' }}> — {log.note}</span>
+            <span className="font-medium">{getLogLabel(log)}</span>
+            {log.progress_snapshot !== null && progressType && progressType !== 'none' && (
+              <span style={{ color: 'rgb(var(--color-text-muted))' }}>
+                {' '}— {log.progress_snapshot}{progressType === 'page' ? 'p' : '화'}
+              </span>
             )}
-            {log.progress_snapshot !== null && !log.note && (
-              <span style={{ color: 'rgb(var(--color-text-muted))' }}> {log.progress_snapshot}</span>
+            {log.note && (
+              <span style={{ color: 'rgb(var(--color-text-muted))' }}> · {log.note}</span>
             )}
           </div>
         </div>
