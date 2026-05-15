@@ -20,3 +20,23 @@ export async function updateProfile(formData: FormData) {
   revalidatePath('/', 'layout')
   redirect('/settings')
 }
+
+export async function addCustomGenre(genre: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Unauthorized')
+
+  const { data: profile } = await supabase
+    .from('user_profiles')
+    .select('custom_genres')
+    .eq('user_id', user.id)
+    .single()
+
+  const current: string[] = profile?.custom_genres ?? []
+  if (current.includes(genre)) return
+
+  await supabase
+    .from('user_profiles')
+    .update({ custom_genres: [...current, genre] })
+    .eq('user_id', user.id)
+}

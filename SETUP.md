@@ -144,6 +144,10 @@ Vercel 배포 완료 후 **Authentication → URL Configuration**:
 - Site URL: `https://your-project.vercel.app`
 - Redirect URLs: `https://your-project.vercel.app/auth/callback`
 
+### 6. 마이그레이션
+
+초기 스키마 이후 변경 사항은 [`docs/migrations.md`](docs/migrations.md)를 참고하세요.
+
 ---
 
 ## Vercel 배포
