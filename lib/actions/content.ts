@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import type { ContentType, ReadingStatus } from '@/lib/types'
+import type { ContentType, ProgressType, ReadingStatus } from '@/lib/types'
 
 export async function createContent(formData: FormData) {
   const supabase = await createClient()
@@ -11,6 +11,7 @@ export async function createContent(formData: FormData) {
   if (!user) throw new Error('Unauthorized')
 
   const type = formData.get('type') as ContentType
+  const progressType = (formData.get('progress_type') as ProgressType) || 'none'
   const title = formData.get('title') as string
   const author = (formData.get('author') as string) || ''
   const genre = ((formData.get('genre') as string) || '')
@@ -41,6 +42,7 @@ export async function createContent(formData: FormData) {
     .insert({
       user_id: user.id,
       type,
+      progress_type: progressType,
       title,
       author,
       genre,

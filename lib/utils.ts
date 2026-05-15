@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-import type { ContentType, ReadingStatus } from './types'
+import type { ContentType, ProgressType, ReadingStatus } from './types'
 
 const STATUS_LABELS: Record<ReadingStatus, string> = {
   to_read: '읽기 전',
@@ -47,16 +47,16 @@ export function getContentTypeLabel(type: ContentType): string {
 }
 
 export function formatProgress(
-  type: ContentType,
+  progressType: ProgressType,
   progressPage: number | null,
   progressEpisode: number | null,
   totalPages: number | null,
   totalEpisodes: number | null,
 ): string {
-  if (type === 'book' && progressPage !== null) {
+  if (progressType === 'page' && progressPage !== null) {
     return totalPages ? `${progressPage} / ${totalPages}p` : `${progressPage}p`
   }
-  if ((type === 'webnovel' || type === 'indie') && progressEpisode !== null) {
+  if (progressType === 'episode' && progressEpisode !== null) {
     return totalEpisodes
       ? `${progressEpisode} / ${totalEpisodes}화`
       : `${progressEpisode}화`

@@ -1,5 +1,7 @@
 export type ContentType = 'book' | 'webnovel' | 'indie' | 'original'
 
+export type ProgressType = 'page' | 'episode' | 'none'
+
 export type ReadingStatus =
   | 'to_read'
   | 'reading'
@@ -20,6 +22,7 @@ export interface Content {
   id: string
   user_id: string
   type: ContentType
+  progress_type: ProgressType
   title: string
   author: string
   cover_url: string | null

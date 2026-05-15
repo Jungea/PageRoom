@@ -50,7 +50,7 @@ export default async function ContentDetailPage({ params }: Props) {
     .single()
 
   const progress = record
-    ? formatProgress(content.type, record.progress_page, record.progress_episode, content.total_pages, content.total_episodes)
+    ? formatProgress(content.progress_type, record.progress_page, record.progress_episode, content.total_pages, content.total_episodes)
     : ''
 
   return (
@@ -84,7 +84,7 @@ export default async function ContentDetailPage({ params }: Props) {
       {record && (
         <div>
           <h2 className="font-semibold mb-2">진행도 업데이트</h2>
-          <ProgressForm record={record} contentId={content.id} contentType={content.type} />
+          <ProgressForm record={record} contentId={content.id} progressType={content.progress_type} />
         </div>
       )}
 

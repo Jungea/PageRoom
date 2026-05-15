@@ -5,7 +5,7 @@ import { SubmitButton } from '@/components/submit-button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { getStatusLabel } from '@/lib/utils'
-import type { ReadingStatus, ContentType, ReadingRecord } from '@/lib/types'
+import type { ReadingStatus, ProgressType, ReadingRecord } from '@/lib/types'
 
 const STATUS_OPTIONS: ReadingStatus[] = [
   'reading', 'completed', 'to_read', 'dropped', 'rereading', 'waiting', 'up_to_date',
@@ -14,13 +14,10 @@ const STATUS_OPTIONS: ReadingStatus[] = [
 interface ProgressFormProps {
   record: ReadingRecord
   contentId: string
-  contentType: ContentType
+  progressType: ProgressType
 }
 
-export function ProgressForm({ record, contentId, contentType }: ProgressFormProps) {
-  const isBook = contentType === 'book'
-  const isEpisodic = contentType === 'webnovel' || contentType === 'indie'
-
+export function ProgressForm({ record, contentId, progressType }: ProgressFormProps) {
   return (
     <form action={updateProgress} className="space-y-3 rounded-xl p-4 border"
       style={{ backgroundColor: 'rgb(var(--color-surface))', borderColor: 'rgb(var(--color-border))' }}>
@@ -42,7 +39,7 @@ export function ProgressForm({ record, contentId, contentType }: ProgressFormPro
         </select>
       </div>
 
-      {isBook && (
+      {progressType === 'page' && (
         <div className="space-y-1">
           <Label htmlFor="progress_page">현재 페이지</Label>
           <Input
@@ -55,7 +52,7 @@ export function ProgressForm({ record, contentId, contentType }: ProgressFormPro
         </div>
       )}
 
-      {isEpisodic && (
+      {progressType === 'episode' && (
         <div className="space-y-1">
           <Label htmlFor="progress_episode">현재 화수</Label>
           <Input

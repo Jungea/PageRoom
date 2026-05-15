@@ -13,7 +13,7 @@ export function ContentCard({ content }: ContentCardProps) {
 
   const progress = record
     ? formatProgress(
-        content.type,
+        content.progress_type,
         record.progress_page,
         record.progress_episode,
         content.total_pages,
@@ -22,9 +22,9 @@ export function ContentCard({ content }: ContentCardProps) {
     : ''
 
   const progressPercent =
-    record && content.total_pages && record.progress_page
+    record && content.progress_type === 'page' && content.total_pages && record.progress_page
       ? Math.round((record.progress_page / content.total_pages) * 100)
-      : record && content.total_episodes && record.progress_episode
+      : record && content.progress_type === 'episode' && content.total_episodes && record.progress_episode
       ? Math.round((record.progress_episode / content.total_episodes) * 100)
       : null
 
