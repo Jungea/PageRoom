@@ -1,12 +1,14 @@
-# Supabase 초기 설정 가이드
+# 설정 & 배포 가이드
 
-## 1. 프로젝트 생성
+## Supabase 초기 설정
+
+### 1. 프로젝트 생성
 
 1. https://supabase.com 접속 → **New Project** 생성
 2. 프로젝트 이름: `pageroom`
 3. 생성 완료까지 1~2분 대기
 
-## 2. 환경 변수 설정
+### 2. 환경 변수 설정
 
 **Settings → API** 에서 다음 값 복사 후 `.env.local` 파일 생성:
 
@@ -17,11 +19,11 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJxxxxxxxxxxxxxxxx...
 
 > `.env.local` 은 `.gitignore`에 포함되어 있어 git에 올라가지 않습니다.
 
-## 3. 데이터베이스 스키마 실행
+### 3. 데이터베이스 스키마 실행
 
 **SQL Editor** 에서 아래 SQL을 순서대로 실행하세요.
 
-### 001 — 테이블 생성
+#### 001 — 테이블 생성
 
 ```sql
 -- user_profiles
@@ -96,7 +98,7 @@ create table public.reviews (
 );
 ```
 
-### 002 — RLS 정책 설정
+#### 002 — RLS 정책 설정
 
 ```sql
 -- RLS 활성화
@@ -130,14 +132,69 @@ create policy "reviews_public_read" on public.reviews
   for select using (is_public = true);
 ```
 
-## 4. Storage 버킷 생성
+### 4. Storage 버킷 생성
 
 **Storage → New Bucket**:
 - Name: `covers`
 - Public bucket: **ON** (커버 이미지는 공개 URL로 접근)
 
-## 5. Auth 설정 (배포 후)
+### 5. Auth 설정 (배포 후)
 
 Vercel 배포 완료 후 **Authentication → URL Configuration**:
 - Site URL: `https://your-project.vercel.app`
 - Redirect URLs: `https://your-project.vercel.app/auth/callback`
+
+---
+
+## Vercel 배포
+
+### 1. GitHub 저장소 생성 & 푸시
+
+```bash
+git remote add origin https://github.com/<username>/pageroom.git
+git branch -M main
+git push -u origin main
+```
+
+### 2. Vercel 프로젝트 생성
+
+1. https://vercel.com/dashboard → **Add New → Project**
+2. GitHub 저장소 `pageroom` Import
+3. Framework Preset: **Next.js** (자동 감지됨)
+4. Root Directory: `.` (기본값 유지)
+
+### 3. 환경 변수 설정
+
+**Settings → Environment Variables** 에서 아래 두 값 입력:
+
+| Name | Value |
+|------|-------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase Settings → API → Project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase Settings → API → anon public key |
+
+> **Environment:** Production / Preview / Development 모두 체크
+
+### 4. 배포
+
+- **Deploy** 버튼 클릭
+- 1~3분 후 배포 완료
+- 배포 URL 확인 (예: `https://pageroom-xxx.vercel.app`)
+
+### 5. Supabase Auth URL 설정
+
+배포 완료 후 **Authentication → URL Configuration:**
+
+| 항목 | 값 |
+|------|-----|
+| Site URL | `https://pageroom-xxx.vercel.app` |
+| Redirect URLs | `https://pageroom-xxx.vercel.app/auth/callback` |
+
+> 이 설정 없으면 로그인 후 리다이렉트가 실패합니다.
+
+### 6. 동작 확인 체크리스트
+
+- [ ] 메인 페이지 (`/`) 접속 가능
+- [ ] 회원가입 후 서점 이름 설정 화면 표시
+- [ ] 로그인 → `/library` 리다이렉트
+- [ ] 콘텐츠 등록 (`/add`) 정상 동작
+- [ ] 서재 (`/library`) 목록 표시

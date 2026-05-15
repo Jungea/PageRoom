@@ -28,7 +28,7 @@
 
 | 영역 | 기술 |
 |------|------|
-| 프레임워크 | Next.js 15 (App Router) |
+| 프레임워크 | Next.js 16 (App Router) |
 | 언어 | TypeScript |
 | 스타일 | Tailwind CSS v4 + shadcn/ui |
 | 백엔드/DB | Supabase (PostgreSQL + Auth + Storage) |
@@ -56,6 +56,5 @@ npm run dev
 
 ## 문서
 
-- [`docs/supabase-setup.md`](docs/supabase-setup.md) — Supabase 초기 설정
-- [`docs/vercel-deployment.md`](docs/vercel-deployment.md) — Vercel 배포
+- [`SETUP.md`](SETUP.md) — Supabase 초기 설정 & Vercel 배포
 - [`docs/phase1-summary.md`](docs/phase1-summary.md) — Phase 1 개발 요약
