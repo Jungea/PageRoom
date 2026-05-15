@@ -55,6 +55,7 @@ export interface ActivityLog {
   action: ActivityAction
   note: string | null
   progress_snapshot: number | null
+  status_snapshot: string | null
   logged_at: string
 }
 
@@ -62,6 +63,7 @@ export interface Review {
   id: string
   user_id: string
   content_id: string
+  title: string
   body: string
   rating: number
   is_public: boolean

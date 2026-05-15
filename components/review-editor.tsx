@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label'
 interface ReviewEditorProps {
   contentId: string
   reviewId?: string
+  initialTitle?: string
   initialBody?: string
   initialRating?: number
   initialIsPublic?: boolean
@@ -18,6 +19,7 @@ interface ReviewEditorProps {
 export function ReviewEditor({
   contentId,
   reviewId,
+  initialTitle = '',
   initialBody = '',
   initialRating = 0,
   initialIsPublic = false,
@@ -33,6 +35,18 @@ export function ReviewEditor({
       <div>
         <h1 className="text-xl font-bold">{contentTitle}</h1>
         <p className="text-sm" style={{ color: 'rgb(var(--color-text-muted))' }}>독후감</p>
+      </div>
+
+      <div className="space-y-1">
+        <Label htmlFor="title">제목</Label>
+        <input
+          id="title"
+          name="title"
+          defaultValue={initialTitle}
+          placeholder="독후감 제목"
+          className="h-9 w-full rounded-md border px-3 text-sm outline-none"
+          style={{ borderColor: 'rgb(var(--color-border))' }}
+        />
       </div>
 
       <div className="space-y-1">
@@ -52,7 +66,7 @@ export function ReviewEditor({
       </div>
 
       <div className="space-y-1">
-        <Label htmlFor="body">내용 (마크다운 지원)</Label>
+        <Label htmlFor="body">내용</Label>
         <Textarea
           id="body"
           name="body"

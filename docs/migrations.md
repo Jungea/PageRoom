@@ -20,4 +20,14 @@ update contents set progress_type = case
   when type in ('webnovel', 'indie') then 'episode'
   else 'none'
 end;
+
+-- 003: activity_logs에 status_snapshot 컬럼 추가
+alter table activity_logs
+  add column status_snapshot text;
+
+-- 004: reviews unique 제약 제거 (다이어리 형태 - 콘텐츠당 여러 독후감 허용)
+alter table reviews drop constraint reviews_user_id_content_id_key;
+
+-- 005: reviews에 title 컬럼 추가
+alter table reviews add column title text not null default '';
 ```

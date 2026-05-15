@@ -42,12 +42,11 @@ export default async function ContentDetailPage({ params }: Props) {
     .eq('user_id', user!.id)
     .order('logged_at', { ascending: false })
 
-  const { data: review } = await supabase
+  const { data: reviews } = await supabase
     .from('reviews')
     .select('id')
     .eq('content_id', contentId)
     .eq('user_id', user!.id)
-    .single()
 
   const progress = record
     ? formatProgress(content.progress_type, record.progress_page, record.progress_episode, content.total_pages, content.total_episodes)
@@ -90,17 +89,27 @@ export default async function ContentDetailPage({ params }: Props) {
 
       <div className="flex items-center justify-between">
         <h2 className="font-semibold">독후감</h2>
-        <Link
-          href={review ? `/reviews/${review.id}` : `/reviews/new?contentId=${content.id}`}
-          className={buttonVariants({ variant: 'outline', size: 'sm' })}
-        >
-          {review ? '독후감 보기' : '독후감 쓰기'}
-        </Link>
+        <div className="flex gap-2">
+          {reviews && reviews.length > 0 && (
+            <Link
+              href={`/reviews?contentId=${content.id}`}
+              className={buttonVariants({ variant: 'outline' })}
+            >
+              목록
+            </Link>
+          )}
+          <Link
+            href={`/reviews/new?contentId=${content.id}`}
+            className={buttonVariants({ variant: 'outline' })}
+          >
+            쓰기
+          </Link>
+        </div>
       </div>
 
       <div>
         <h2 className="font-semibold mb-3">활동 로그</h2>
-        <ActivityLogTimeline logs={logs ?? []} />
+        <ActivityLogTimeline logs={logs ?? []} progressType={content.progress_type} />
       </div>
     </div>
   )

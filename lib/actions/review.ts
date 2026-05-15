@@ -11,6 +11,7 @@ export async function upsertReview(formData: FormData) {
 
   const reviewId = formData.get('review_id') as string | null
   const contentId = formData.get('content_id') as string
+  const title = formData.get('title') as string
   const body = formData.get('body') as string
   const rating = Number(formData.get('rating')) || 0
   const isPublic = formData.get('is_public') === 'true'
@@ -20,13 +21,13 @@ export async function upsertReview(formData: FormData) {
   if (reviewId) {
     await supabase
       .from('reviews')
-      .update({ body, rating, is_public: isPublic, updated_at: new Date().toISOString() })
+      .update({ title, body, rating, is_public: isPublic, updated_at: new Date().toISOString() })
       .eq('id', reviewId)
       .eq('user_id', user.id)
   } else {
     const { data, error } = await supabase
       .from('reviews')
-      .insert({ user_id: user.id, content_id: contentId, body, rating, is_public: isPublic })
+      .insert({ user_id: user.id, content_id: contentId, title, body, rating, is_public: isPublic })
       .select()
       .single()
     if (error || !data) throw new Error(error?.message)
