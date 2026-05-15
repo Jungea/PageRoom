@@ -18,12 +18,13 @@ export function NavigationProgress() {
       if (!target) return
       const href = target.getAttribute('href')
       if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto')) return
+      if (href === pathname) return
       show()
     }
 
     document.addEventListener('click', handleClick)
     return () => document.removeEventListener('click', handleClick)
-  }, [show])
+  }, [show, pathname])
 
   return null
 }
