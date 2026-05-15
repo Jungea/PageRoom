@@ -23,31 +23,37 @@ export function LibraryFilters({
   onTypeChange,
 }: LibraryFiltersProps) {
   return (
-    <div className="space-y-2">
-      <div className="flex flex-wrap gap-2">
-        <FilterChip
-          label="전체"
-          active={selectedStatus === null && selectedType === null}
-          onClick={() => { onStatusChange(null); onTypeChange(null) }}
-        />
-        {STATUS_OPTIONS.map((s) => (
+    <div className="space-y-3">
+      <div className="space-y-1.5">
+        <p className="text-xs font-medium" style={{ color: 'rgb(var(--color-text-muted))' }}>상태</p>
+        <div className="flex flex-wrap gap-2">
           <FilterChip
-            key={s}
-            label={getStatusLabel(s)}
-            active={selectedStatus === s}
-            onClick={() => onStatusChange(selectedStatus === s ? null : s)}
+            label="전체"
+            active={selectedStatus === null && selectedType === null}
+            onClick={() => { onStatusChange(null); onTypeChange(null) }}
           />
-        ))}
+          {STATUS_OPTIONS.map((s) => (
+            <FilterChip
+              key={s}
+              label={getStatusLabel(s)}
+              active={selectedStatus === s}
+              onClick={() => onStatusChange(selectedStatus === s ? null : s)}
+            />
+          ))}
+        </div>
       </div>
-      <div className="flex flex-wrap gap-2">
-        {TYPE_OPTIONS.map((t) => (
-          <FilterChip
-            key={t}
-            label={getContentTypeLabel(t)}
-            active={selectedType === t}
-            onClick={() => onTypeChange(selectedType === t ? null : t)}
-          />
-        ))}
+      <div className="space-y-1.5">
+        <p className="text-xs font-medium" style={{ color: 'rgb(var(--color-text-muted))' }}>타입</p>
+        <div className="flex flex-wrap gap-2">
+          {TYPE_OPTIONS.map((t) => (
+            <FilterChip
+              key={t}
+              label={getContentTypeLabel(t)}
+              active={selectedType === t}
+              onClick={() => onTypeChange(selectedType === t ? null : t)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )

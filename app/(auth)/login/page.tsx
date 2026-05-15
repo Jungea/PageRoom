@@ -51,9 +51,31 @@ export default function LoginPage() {
       <div className="w-full max-w-sm space-y-6">
         <div className="text-center">
           <h1 className="text-2xl font-bold">📚 PageRoom</h1>
-          <p className="text-sm mt-1" style={{ color: 'rgb(var(--color-text-muted))' }}>
-            {isSignUp ? '회원가입' : '로그인'}
-          </p>
+        </div>
+
+        <div className="flex rounded-lg overflow-hidden border" style={{ borderColor: 'rgb(var(--color-border))' }}>
+          <button
+            type="button"
+            onClick={() => { setIsSignUp(false); setMessage(''); setEmail(''); setPassword('') }}
+            className="flex-1 py-2 text-sm font-medium transition-colors"
+            style={!isSignUp
+              ? { background: 'rgb(var(--color-primary))', color: 'rgb(var(--color-primary-foreground))' }
+              : { color: 'rgb(var(--color-text-muted))' }
+            }
+          >
+            로그인
+          </button>
+          <button
+            type="button"
+            onClick={() => { setIsSignUp(true); setMessage(''); setEmail(''); setPassword('') }}
+            className="flex-1 py-2 text-sm font-medium transition-colors"
+            style={isSignUp
+              ? { background: 'rgb(var(--color-primary))', color: 'rgb(var(--color-primary-foreground))' }
+              : { color: 'rgb(var(--color-text-muted))' }
+            }
+          >
+            회원가입
+          </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -86,15 +108,6 @@ export default function LoginPage() {
             {loading ? '처리 중...' : isSignUp ? '가입하기' : '로그인'}
           </Button>
         </form>
-
-        <button
-          type="button"
-          onClick={() => setIsSignUp(!isSignUp)}
-          className="w-full text-sm text-center"
-          style={{ color: 'rgb(var(--color-primary))' }}
-        >
-          {isSignUp ? '이미 계정이 있나요? 로그인' : '계정이 없나요? 회원가입'}
-        </button>
       </div>
     </main>
   )
