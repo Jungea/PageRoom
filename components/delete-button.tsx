@@ -1,6 +1,7 @@
 'use client'
 
 import { useLoadingOverlay } from '@/components/loading-overlay'
+import { buttonVariants } from '@/components/ui/button'
 
 interface DeleteButtonProps {
   action: () => Promise<void>
@@ -20,8 +21,8 @@ export function DeleteButton({ action, confirmMessage }: DeleteButtonProps) {
     <button
       type="button"
       onClick={handleClick}
-      className="text-sm px-3 py-1.5 rounded-lg"
-      style={{ backgroundColor: 'rgb(var(--color-danger, 239 68 68))', color: 'white' }}
+      className={buttonVariants()}
+      style={{ backgroundColor: 'rgb(var(--color-danger, 239 68 68))', color: 'white', borderColor: 'transparent' }}
     >
       삭제
     </button>
