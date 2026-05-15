@@ -6,6 +6,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
+## Rules
+
+Supabase 스키마 변경 SQL(ALTER TABLE, CREATE TABLE, UPDATE 등)을 사용자에게 제시하거나 실행할 때마다 `docs/migrations.md`에 반드시 저장한다.
+
+---
+
 ## Commands
 
 ```bash
